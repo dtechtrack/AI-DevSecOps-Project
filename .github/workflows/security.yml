@@ -30,7 +30,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run OWASP Dependency-Check (Scan pom.xml for vulnerabilities)
+      - name: Install Maven (required for scanning pom.xml)
+        run: sudo apt-get update && sudo apt-get install -y maven
+
+      - name: Run OWASP Dependency-Check
         uses: dependency-check/Dependency-Check_Action@main
         with:
           project: "AI-DevSecOps"
@@ -38,10 +41,13 @@ jobs:
           scanPath: pom.xml
           format: "HTML"
           out: reports
+          enableExperimental: true
+          failOnCVSS: 0
 
       - name: Upload Dependency Report
         uses: actions/upload-artifact@v4
         with:
           name: dependency-check-report
           path: reports
+
 
