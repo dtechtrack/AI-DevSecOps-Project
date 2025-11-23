@@ -30,15 +30,18 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run OWASP Dependency Check
+      - name: Run OWASP Dependency-Check (Scan pom.xml for vulnerabilities)
         uses: dependency-check/Dependency-Check_Action@main
         with:
+          project: "AI-DevSecOps"
+          path: .
+          scanPath: pom.xml
           format: "HTML"
           out: reports
-          project: "AI-DevSecOps"
 
       - name: Upload Dependency Report
         uses: actions/upload-artifact@v4
         with:
           name: dependency-check-report
           path: reports
+
